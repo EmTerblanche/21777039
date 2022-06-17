@@ -29,6 +29,13 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+
+```
+
+```{r}
+# Source in all functions:
+list.files('Question 1/htmlQuestion1/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
 ```
 
 \newpage
@@ -50,16 +57,16 @@ CovidDataAfrica <- CovidData %>%
 
 As can be seen in \ref{Figure1}, Africa experienced a gain in cases since the first period of 97 861 cases. This is the second lowest increase after Oceania, and is significantly lower than more developed continents, such as North America. 
 
-``` {r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Gain in Cases Across Continents\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+``` {r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Gain in Cases Across Continents \\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
 
 Africatab <- table(CovidDataAfrica$continent, CovidDataAfrica$MeanCasesGain)
 Africatab
 ```
 
 
-Furthermore, from \ref{Figure2}, we can see that Covid cases are not always associated with higher population densities. For example, although Palestine has a high average population density, it does not have very many Covid cases on average. 
+Furthermore, from \ref{Figure2} depicts total cases in countries subject to a population characteristic -- population density. We can see that Covid cases are not always associated with higher population densities. For example, although Palestine has a high average population density, it does not have very many Covid cases on average. 
 
-```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Population Density and Covid Cases.\\label{Figure2}", fig.ext = 'png', fig.height = 6, fig.width = 6}
+```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Population Density and Covid Cases. \\label{Figure2}", fig.ext = 'png', fig.height = 6, fig.width = 6}
 
 library(ggplot2)
   g <-
@@ -68,23 +75,9 @@ library(ggplot2)
 g
 
 
-````
+```
 
 
-
-
-# References {-}
-
-<div id="refs"></div>
-
-
-# Appendix {-}
-
-## Appendix A {-}
-
-Some appendix information here
-
-## Appendix B {-}
 
 
 

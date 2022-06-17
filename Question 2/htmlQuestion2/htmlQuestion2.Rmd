@@ -1,5 +1,5 @@
 ---
-title: "Paged HTML Document"
+title: "London Weather"
 author: "Emma Terblance"
 date: "June 2022"
 # date: "`r Sys.Date()`"
@@ -30,18 +30,22 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 pacman::p_load(modelsummary, gt, knitr, kableExtra, tidyverse)
+
+# Source in all functions:
+list.files('Question 2/htmlQuestion2/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
 ```
 
-\newpage
 
-# Introduction {-}
 ``` {r}
 library(readr)
 LondonData <- read_csv("data/london_weather.csv")
 
  LondonData$date <- as.Date(as.character(LondonData$date),format="%Y%m%d")
 ```
-
+\newpage
+## London Precipitation Per Month
+As can be seen by the below graph, there are many months over the years where precipitation has been very high. Furthermore, every month averages with a positive precipitation value, with many between 10 and 20. 
 
 ```{r}
 g <-
@@ -50,7 +54,8 @@ g <-
   g
 ```
 
-
+##London Monthly Temperature Range 
+London is very cold! 
 
 ```{r}
 g1 <-

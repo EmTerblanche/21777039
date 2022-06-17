@@ -40,7 +40,7 @@ Email1: "21777039\\@sun.ac.za" # First Author's Email address
 #CorrespAuthor_1: TRUE  # If corresponding author is author 3, e.g., use CorrespAuthor_3: TRUE
 
 # Comment out below to remove both. JEL Codes only given if keywords also given.
-keywords: "Data Science \\sep Economics \\sep Happiness" # Use \\sep to separate
+keywords: "Data Science \\sep Economics \\sep Netflix" # Use \\sep to separate
 JELCodes: "L250 \\sep L100"
 
 # ----- Manage headers and footers:
@@ -105,15 +105,21 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width 
 # warning and message = FALSE implies ugly messages and warnings are removed from your pdf.
 # These should be picked up when you execute the command chunks (code sections below) in your rmd, not printed in your paper!
 
-# Happiness Data.
 ##Packages
 if(!require("tidyverse")) install.packages("tidyverse")
 library(tidyverse)
 if(!require("dplyr")) install.packages("dplyr")
 library(dplyr)
 
-##Reading in Data
+```
 
+```{r}
+library(readr)
+CreditsData <- read_csv("data/credits.csv")
+TitlesData <- read_csv("data/titles.csv")
+
+NetflixData <- merge(CreditsData, TitlesData, by="id")
+```
 
 ```
 
@@ -123,7 +129,41 @@ library(dplyr)
 
 # Question 4 \label{Question 4}
 
+## Correlation Between Amount of Seasons and IMdb Score
+Having more seasons does not mean there is a higher score. 
 
+```{r}
+library(modelsummary)
+NetflixDataTypeCorr <- NetflixData %>% 
+  select(imdb_score, seasons)
+  
+SeasonsScoreCorrelationTab <-
+  NetflixCorrelationFxn(NetflixDataTypeCorr)
+
+SeasonsScoreCorrelationTab
+```
+
+
+##Popularity over time
+Movies has become less popular. Series has become more. Load more series. 
+
+```{r}
+MovieSeries <- 
+  MovieSeriesFxn(NetflixData, Title = "Popularity Over Time", Subtitle = "Movies vs Series")
+MovieSeries
+
+```
+
+#
+
+```{r}
+Movies <- NetflixData %>% 
+  filter(type == "MOVIE")
+  
+RuntimeGraph <- 
+  RuntimeFxn(Movies, Title = "Runtime Popularity", Subtitle = "Movies")
+RuntimeGraph
+```
 
 \newpage
 

@@ -16,7 +16,7 @@ gc()
 library(pacman)
 p_load(tidyverse, lubridate)
 
-# Source in all your functions:
+# Source in all functions:
 list.files('Question 1/htmlQuestion1/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
 
 
@@ -75,7 +75,7 @@ gc()
 library(pacman)
 p_load(tidyverse, lubridate)
 
-# Source in all your functions:
+# Source in all functions:
 list.files('Question 2/htmlQuestion2/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
 
 
@@ -120,30 +120,6 @@ LondonCorrelationTab <-
   LondonCorrelationFxn(LondonDataCorr)
 
 LondonCorrelationTab
-```
-
-# Question 3
-```{r, eval = F}
-Texevier::create_template_html(directory = "/Users/mac/Desktop/Masters/21777039/Question 3/",
-                          template_name = "htmlQuestion3",
-                          build_project = T, open_project = F)
-```
-
-```{r}
-
-gc() 
-library(pacman)
-p_load(tidyverse, lubridate)
-
-# Source in all your functions:
-list.files('Question 3/htmlQuestion3/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
-
-
-```
-
-## Question 3 Data
-``` {r}
-
 ```
 
 
