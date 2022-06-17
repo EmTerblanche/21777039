@@ -1,0 +1,90 @@
+---
+title: "COVID Report"
+author: "Emma Terblanche"
+date: "June 2022"
+# date: "`r Sys.Date()`"
+bibliography: Tex/ref.bib       # Do not edit: Keep this naming convention and location.
+output:
+  pagedown::html_paged:
+    # template: wp_paged.html
+    # css: ['wp.css', 'wp-fonts.css', 'wp-page.css']
+    css: ["Template/default-fonts-Texevier.css", "Template/default-page-Texevier.css", "Template/default-Texevier.css"]
+    csl: Template/harvard-stellenbosch-university.csl # referencing format used.
+    template: ["Template/paged-Texevier.html"]
+
+    toc: true
+    # change to true for a self-contained document, but it'll be a litte slower for Pandoc to render
+    self_contained: TRUE
+#abstract: |
+ #   This is an abstract. Much can be written here. Uncomment this line to go without an abstract.
+ #   Abstracts have no spaces, but can have bullets.
+
+ #    Bullets can be created as follows
+
+ #   + You can add bullets, but do not add colons please.
+
+ #  + Line breaks are also not permitted.
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+```
+
+\newpage
+
+# How Africa's experience differed from other countries  {-}
+
+``` {r} 
+library(readr)
+CovidData <- read_csv("data/owid-covid-data.csv")
+DeathsCause <- read_csv("data/Deaths_by_cause.csv")
+
+library(dplyr)
+CovidDataAfrica <- CovidData %>% 
+  group_by(continent) %>% 
+  select(continent, date, total_cases) %>% 
+  mutate(total_cases_gain = total_cases - first(total_cases)) %>%
+  summarize(MeanCasesGain = mean(total_cases_gain, na.rm = TRUE))
+```
+
+As can be seen in \ref{Figure1}, Africa experienced a gain in cases since the first period of 97 861 cases. This is the second lowest increase after Oceania, and is significantly lower than more developed continents, such as North America. 
+
+``` {r, warning =  FALSE, fig.align = 'center', fig.cap = "Average Gain in Cases Across Continents\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+Africatab <- table(CovidDataAfrica$continent, CovidDataAfrica$MeanCasesGain)
+Africatab
+```
+
+
+Furthermore, from \ref{Figure2}, we can see that Covid cases are not always associated with higher population densities. For example, although Palestine has a high average population density, it does not have very many Covid cases on average. 
+
+```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Population Density and Covid Cases.\\label{Figure2}", fig.ext = 'png', fig.height = 6, fig.width = 6}
+
+library(ggplot2)
+  g <-
+  PopDensPointPlot(CovidDataPopDensAve, Title = "Population vs Covid Cases", Subtitle = "Per Country", xaxis_size = 5, xaxis_rows = 3)
+
+g
+
+
+````
+
+
+
+
+# References {-}
+
+<div id="refs"></div>
+
+
+# Appendix {-}
+
+## Appendix A {-}
+
+Some appendix information here
+
+## Appendix B {-}
+
+
+

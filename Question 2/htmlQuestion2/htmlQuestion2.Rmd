@@ -1,0 +1,92 @@
+---
+title: "Paged HTML Document"
+author: "Emma Terblance"
+date: "June 2022"
+# date: "`r Sys.Date()`"
+bibliography: Tex/ref.bib       # Do not edit: Keep this naming convention and location.
+output:
+  pagedown::html_paged:
+    # template: wp_paged.html
+    # css: ['wp.css', 'wp-fonts.css', 'wp-page.css']
+    css: ["Template/default-fonts-Texevier.css", "Template/default-page-Texevier.css", "Template/default-Texevier.css"]
+    csl: Template/harvard-stellenbosch-university.csl # referencing format used.
+    template: ["Template/paged-Texevier.html"]
+
+    toc: true
+    # change to true for a self-contained document, but it'll be a litte slower for Pandoc to render
+    self_contained: TRUE
+#abstract: |
+    #This is an abstract. Much can be written here. Uncomment this line to go without an abstract.
+   # Abstracts have no spaces, but can have bullets.
+
+   # Bullets can be created as follows
+
+   # + You can add bullets, but do not add colons please.
+
+   # + Line breaks are also not permitted.
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+pacman::p_load(modelsummary, gt, knitr, kableExtra, tidyverse)
+```
+
+\newpage
+
+# Introduction {-}
+``` {r}
+library(readr)
+LondonData <- read_csv("data/london_weather.csv")
+
+ LondonData$date <- as.Date(as.character(LondonData$date),format="%Y%m%d")
+```
+
+
+```{r}
+g <-
+    PrecipitationPlot(LondonData, Title = "London Precipitation", Subtitle = "Per Month", xaxis_size = 5, xaxis_rows = 3)
+  
+  g
+```
+
+
+
+```{r}
+g1 <-
+    MinMaxTempplot(LondonData, Title = "London Monthly Temperature Range", Subtitle = "Minimum and Maximum", xaxis_size = 5, xaxis_rows = 3)
+  
+  g1
+
+```
+
+
+
+
+```{r}
+LondonCorrelationTab <-
+  LondonCorrelationFxn(LondonDataCorr)
+
+LondonCorrelationTab
+```
+
+\newpage
+
+
+
+
+# References {-}
+
+<div id="refs"></div>
+
+
+# Appendix {-}
+
+## Appendix A {-}
+
+Some appendix information here
+
+## Appendix B {-}
+
+
+

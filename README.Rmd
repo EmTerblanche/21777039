@@ -1,0 +1,215 @@
+---
+title: "README"
+author: "Emma Terblanche"
+date: "17/06/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Question 1
+```{r}
+
+gc() 
+library(pacman)
+p_load(tidyverse, lubridate)
+
+# Source in all your functions:
+list.files('Question 1/htmlQuestion1/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+
+```
+
+```{r, eval = F}
+Texevier::create_template_html(directory = "/Users/mac/Desktop/Masters/21777039/Question 1/",
+                          template_name = "htmlQuestion1",
+                          build_project = T, open_project = F)
+```
+
+## Data 
+``` {r}
+library(readr)
+CovidData <- read_csv("Question 1/Data/Covid/owid-covid-data.csv")
+DeathsCause <- read_csv("Question 1/Data/Covid/Deaths_by_cause.csv")
+
+CovidDataAfrica <- CovidData %>% 
+  group_by(continent) %>% 
+  select(continent, date, total_cases) %>% 
+  mutate(total_cases_gain = total_cases - first(total_cases)) %>%
+  summarize(MeanCasesGain = mean(total_cases_gain, na.rm = TRUE))
+```
+
+## Table - Increase in Cases Per Region
+This table shows the difference in each region's cases from their first entry. As such, a gain-in-cases variable was created by minusing the respective total cases from the first entry in the total_cases column. Thereafter, the average was taken. Each region's average is what is depicted in the table below. 
+
+
+```{r}
+Africatab <- table(CovidDataAfrica$continent, CovidDataAfrica$MeanCasesGain)
+Africatab
+```
+
+##Population Density vs Covid Cases Graph 
+The below graph illustrates the total Covid cases for five different countries, namely Afghanistan, China, Palestine, Switserland and the Vatican. This is done to show how cases averaged out in countries with a specific characteristic, i.e. a higher or lower population density. In order to do this, I created average population density variables for all countries. Then, while creating the graph, I selected only the data for the five countries shown. 
+```{r}
+CovidDataPopDensAve <- DataWrangleFxn(CovidData)
+
+library(ggplot2)
+  g <-
+  PopDensPointPlot(CovidDataPopDensAve, Title = "Population vs Covid Cases", Subtitle = "Per Country", xaxis_size = 5, xaxis_rows = 3)
+g
+````
+
+
+# Question 2
+```{r, eval = F}
+Texevier::create_template_html(directory = "/Users/mac/Desktop/Masters/21777039/Question 2/",
+                          template_name = "htmlQuestion2",
+                          build_project = T, open_project = F)
+```
+
+```{r}
+
+gc() 
+library(pacman)
+p_load(tidyverse, lubridate)
+
+# Source in all your functions:
+list.files('Question 2/htmlQuestion2/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+
+```
+
+## Question 2 Data
+``` {r}
+library(readr)
+LondonData <- read_csv("Question 2/Data/London/london_weather.csv")
+
+ LondonData$date <- as.Date(as.character(LondonData$date),format="%Y%m%d")
+
+```
+
+##London Precipitation Per Month 
+In order to create the plot below, I created a new variable that extracts the month from each date (YYYY/MM/DD), which I then recoded to be labelled as the month name abbreviations. I then plotted the precipitation in each month throughout the years. 
+
+
+```{r}
+g <-
+    PrecipitationPlot(LondonDataOrdered, Title = "London Precipitation", Subtitle = "Per Month", xaxis_size = 5, xaxis_rows = 3)
+  
+  g
+```
+##London Monthly Temperature Range 
+The graph below plots the maximum (blue) and the minimum (black) temperatures of each month to show the range in which the temperatures move throughout the year. In this graph, the month variable has not been recoded, with 1 indicating January, and 2 indicating February, etc.. It was kept numeric so as to keep the months in order. 
+
+```{r}
+g1 <-
+    MinMaxTempplot(LondonData, Title = "London Monthly Temperature Range", Subtitle = "Minimum and Maximum", xaxis_size = 5, xaxis_rows = 3)
+  
+  g1
+
+```
+
+
+
+##London Correlation Tab
+The below table shows the correlation between four variables, namely global radiation, precipitation, maximum temperature, and sunshine. In order to do this, I used the modelsummary package. 
+```{r}
+LondonCorrelationTab <-
+  LondonCorrelationFxn(LondonDataCorr)
+
+LondonCorrelationTab
+```
+
+# Question 3
+```{r, eval = F}
+Texevier::create_template_html(directory = "/Users/mac/Desktop/Masters/21777039/Question 3/",
+                          template_name = "htmlQuestion3",
+                          build_project = T, open_project = F)
+```
+
+```{r}
+
+gc() 
+library(pacman)
+p_load(tidyverse, lubridate)
+
+# Source in all your functions:
+list.files('Question 3/htmlQuestion3/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+
+```
+
+## Question 3 Data
+``` {r}
+
+```
+
+
+# Question 4
+```{r, eval = F}
+Texevier::create_template(directory = "/Users/mac/Desktop/Masters/21777039/Question 4/",
+                          template_name = "htmlQuestion4",
+                          build_project = T, open_project = F)
+
+
+```
+
+```{r}
+
+gc() 
+library(pacman)
+p_load(tidyverse, lubridate)
+
+# Source in all your functions:
+list.files('Question 4/htmlQuestion4/code/', full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+```
+
+
+
+## Question 4 Data
+``` {r}
+library(readr)
+CreditsData <- read_csv("Question 4/Data/credits.csv")
+TitlesData <- read_csv("Question 4/Data/titles.csv")
+
+NetflixData <- merge(CreditsData, TitlesData, by="id")
+```
+
+
+## Correlation Between Amount of Seasons and IMdb Score
+The table below shows the correlation between the amount of seasons of a movie or series, and the score it was given on IMdb. In order to do this, I used the modelsummary package. 
+```{r}
+library(modelsummary)
+
+NetflixDataTypeCorr <- NetflixData %>% 
+    select(imdb_score, seasons)
+
+SeasonsScoreCorrelationTab <-
+  NetflixCorrelationFxn(NetflixDataTypeCorr)
+
+SeasonsScoreCorrelationTab
+```
+
+
+## Popularity Over Time: Movies vs Series
+The graph below shows how the production of movies and series, and its popularity, has changed over time. This was done by plotting the release year on the x-axis and popularity on the y-axis by the type of production it was. 
+```{r}
+MovieSeries <- 
+  MovieSeriesFxn(NetflixData, Title = "Popularity Over Time", Subtitle = "Movies vs Series")
+MovieSeries
+
+```
+
+## Runtime Popularity 
+The scatterplot below indicates whether there is a correlation between how long a movie is, and its popularity. This was done from the creation of a new data set that excludes any series (i.e. filtering for movies). 
+```{r}
+Movies <- NetflixData %>% 
+  filter(type == "MOVIE")
+  
+RuntimeGraph <- 
+  RuntimeFxn(Movies, Title = "Runtime Popularity", Subtitle = "Movies")
+RuntimeGraph
+```
